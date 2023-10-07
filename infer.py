@@ -3,7 +3,6 @@ import pickle
 from sklearn import datasets
 from sklearn.linear_model import LogisticRegression
 
-
 if __name__ == "__main__":
     iris = datasets.load_iris()
     X = iris.data[:, :2]

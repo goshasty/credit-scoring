@@ -1,6 +1,7 @@
 # Byte-compiled / optimized / DLL files
 
 tests/
+test.py
 check.sh
 
 #models

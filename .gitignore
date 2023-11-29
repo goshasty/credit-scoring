@@ -2,6 +2,9 @@
 
 tests/
 
+#models
+*.pickle
+
 __pycache__/
 *.py[cod]
 *$py.class

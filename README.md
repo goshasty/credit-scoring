@@ -7,3 +7,10 @@ Target = 0: good clients
 
 Target = 1: bad (fraud) clients
 
+run.sh: 
+    create empty venv, 
+    install poetry, 
+    run pre-commit,
+    train and infer
+
+

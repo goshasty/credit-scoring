@@ -1,3 +1,5 @@
+import logging
+
 import numpy as np
 import pandas as pd
 from lightgbm import LGBMClassifier
@@ -21,6 +23,8 @@ class LGBMInfer:
     ) -> np.ndarray:
         X_test = GetX(self.tech_cols).fit_transform(X_test)
         propability = self.model.predict_proba(X_test)
+
+        logging.info(f"Len of data is {len(propability)}")
 
         if target_class is None:
             return propability

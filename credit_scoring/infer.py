@@ -22,6 +22,18 @@ class LGBMInfer:
         X_test = GetX(self.tech_cols).fit_transform(X_test)
         propability = self.model.predict_proba(X_test)
 
+        if target_class is None:
+            return propability
+        elif target_class == 0:
+            return propability[:, 0]
+        elif target_class == 1:
+            return propability[:, 1]
+        else:
+            raise ValueError(
+                "target_class parametr should ve one of {0, 1, None}"
+            )
+
+        """
         match target_class:
             case None:
                 return propability
@@ -33,6 +45,7 @@ class LGBMInfer:
                 raise ValueError(
                     "target_class parametr should ve one of {0, 1, None}"
                 )
+        """
 
     def load_model(self) -> LGBMClassifier:
         lgb_classifier = load_model(self.path_model_to_use)

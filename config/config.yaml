@@ -21,6 +21,6 @@ mlflow:
   server: http://127.0.0.1:8080
 
 hyperopt:
-  max_evals: 10
-  exp_name: exp,
+  max_evals: 20
+  exp_name: exp
   pr_rec_threshold: 0.1

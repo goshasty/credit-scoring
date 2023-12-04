@@ -9,6 +9,7 @@ data:
 model:
   name: lightgbm
   path_fitted_model: models/v1.pickle
+  path_onnx_model:  models/model.onnx
   params:
     boosting_type: gbdt
     learning_rate: 0.05

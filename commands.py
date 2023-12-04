@@ -1,8 +1,13 @@
 import logging
+from typing import Dict, Union
 
 import fire
+import mlflow
+import numpy as np
+import onnxmltools
 from hydra import compose, initialize
 from hydra.core.config_store import ConfigStore
+from mlflow.models import infer_signature
 from omegaconf import OmegaConf
 
 from credit_scoring.config import Params
@@ -56,6 +61,31 @@ def hyperopt(config_path: str = "config"):
     hopt = Hyperopt(config.data.cols, config.mlflow.server, **config.hyperopt)
     best_params = hopt.optimize(train_data)
     logging.info(f"Best params: {repr(best_params)}")
+
+
+@logging_setup
+def run_server(
+    input_data: Dict[str, Union[int, float]], config_path: str = "config"
+):
+
+    vals = [v for _, v in input_data.items()]
+    print(input_data, vals)
+    config = get_config(config_path)
+    onnx_model = onnxmltools.utils.load_model(config.model.path_onnx_model)
+
+    input_data = np.array([vals]).astype(float)
+
+    print(input_data)
+
+    with mlflow.start_run():
+        signature = infer_signature(input_data, np.array([0.0]))
+        model_info = mlflow.onnx.log_model(
+            onnx_model, "model", signature=signature
+        )
+
+    onnx_pyfunc = mlflow.pyfunc.load_model(model_info.model_uri)
+    predictions = onnx_pyfunc.predict(input_data)
+    return predictions
 
 
 if __name__ == "__main__":

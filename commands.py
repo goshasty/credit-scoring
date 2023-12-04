@@ -32,7 +32,10 @@ def train(config_path: str = "config") -> None:
 
     train_data = load_data(config.data.path_train_data)
     fitter = LGBMFit(
-        config.model.path_fitted_model, config.model.params, config.data.cols
+        config.model.path_fitted_model,
+        config.model.path_onnx_model,
+        config.model.params,
+        config.data.cols,
     )
 
     logging.info("Start fitting")

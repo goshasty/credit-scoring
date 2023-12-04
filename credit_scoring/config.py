@@ -24,6 +24,7 @@ class BoostingParams:
 class Model:
     name: str
     path_fitted_model: str
+    path_onnx_model: str
     params: BoostingParams
 
 

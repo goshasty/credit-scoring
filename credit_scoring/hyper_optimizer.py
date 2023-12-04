@@ -61,7 +61,7 @@ class Hyperopt:
 
     def objective(self, params: Dict[str, Any]) -> float:
 
-        lgb_fitter = LGBMFit(None, params, self.cols, verbose=False)
+        lgb_fitter = LGBMFit(None, None, params, self.cols, verbose=False)
         lgb_fitter.fit_boosting(self.train_data)
 
         y_val_pred = lgb_fitter.predict_proba(self.val_data)[:, 1]

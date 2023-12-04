@@ -1,4 +1,5 @@
 import logging
+from typing import Any, Dict
 
 from lightgbm import LGBMClassifier
 
@@ -8,9 +9,17 @@ from credit_scoring.utils import save_model
 
 
 class LGBMFit(LGBM):
-    def __init__(self, path_fitted_model, lgbt_params, cols, verbose=True):
+    def __init__(
+        self,
+        path_fitted_model: str,
+        path_onnx_model: str,
+        lgbt_params: Dict[str, Any],
+        cols: Dict[str, str],
+        verbose: bool = True,
+    ):
         super().__init__(lgbt_params, cols)
         self.path_fitted_model = path_fitted_model
+        self.path_onnx_model = path_onnx_model
         self.verbose = verbose
 
     def __fit_boosting(self, X_train, y_train, params):
@@ -30,4 +39,6 @@ class LGBMFit(LGBM):
         return self.model
 
     def save_model(self, lgb_classifier):
-        save_model(lgb_classifier, self.path_fitted_model)
+        save_model(
+            lgb_classifier, self.path_fitted_model, self.path_onnx_model
+        )

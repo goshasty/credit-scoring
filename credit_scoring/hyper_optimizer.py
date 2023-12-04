@@ -3,10 +3,11 @@ from typing import Any, Dict
 
 import mlflow
 import pandas as pd
-from hyperopt import fmin, hp, tpe
+from hyperopt import fmin, tpe
 from sklearn.metrics import f1_score, roc_auc_score
 from sklearn.model_selection import train_test_split
 
+from credit_scoring.hyper_config import space_params
 from credit_scoring.preprocessing import Gety
 from credit_scoring.train import LGBMFit
 
@@ -20,14 +21,7 @@ class Hyperopt:
         exp_name: str,
         pr_rec_threshold: float,
     ):
-        self.space = {
-            "learning_rate": hp.uniform("learning_rate", 0.01, 0.1),
-            "n_estimators": hp.choice("n_estimators", range(50, 200)),
-            "max_depth": hp.choice("max_depth", range(3, 12)),
-            "colsample_bytree": hp.uniform("colsample_bytree", 0.5, 1),
-            "subsample": hp.uniform("subsample", 0.5, 1.0),
-            "reg_alpha": hp.uniform("reg_alpha", 0, 1),
-        }
+        self.space = space_params
         loggers_hyperopt = [
             logging.getLogger(name)
             for name in logging.Logger.manager.loggerDict

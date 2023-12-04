@@ -1,5 +1,5 @@
 import logging
-from typing import Dict, Union
+from typing import Any, Dict, Union
 
 import fire
 import mlflow
@@ -66,16 +66,13 @@ def hyperopt(config_path: str = "config"):
 @logging_setup
 def run_server(
     input_data: Dict[str, Union[int, float]], config_path: str = "config"
-):
+) -> Dict[Any, Any]:
 
     vals = [v for _, v in input_data.items()]
-    print(input_data, vals)
     config = get_config(config_path)
     onnx_model = onnxmltools.utils.load_model(config.model.path_onnx_model)
 
     input_data = np.array([vals]).astype(float)
-
-    print(input_data)
 
     with mlflow.start_run():
         signature = infer_signature(input_data, np.array([0.0]))

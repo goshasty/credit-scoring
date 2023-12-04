@@ -1,4 +1,3 @@
-import logging
 from typing import List
 
 import numpy as np
@@ -15,12 +14,10 @@ class LGBM:
         self.tech_cols = [col for _, col in self.cols.items()]
 
     def predict_proba(
-        self, X_test: pd.DataFrame, target_class=None
+        self, infer_data: pd.DataFrame, target_class=None
     ) -> np.ndarray:
-        X_test = GetX(self.tech_cols).fit_transform(X_test)
-        propability = self.model.predict_proba(X_test)
-
-        logging.info(f"Len of data is {len(propability)}")
+        X_infer = GetX(self.tech_cols).fit_transform(infer_data)
+        propability = self.model.predict_proba(X_infer)
 
         if target_class is None:
             return propability

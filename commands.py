@@ -6,6 +6,7 @@ from hydra.core.config_store import ConfigStore
 from omegaconf import OmegaConf
 
 from credit_scoring.config import Params
+from credit_scoring.hyper_optimizer import Hyperopt
 from credit_scoring.infer import LGBMInfer
 from credit_scoring.train import LGBMFit
 from credit_scoring.utils import load_data, logging_setup, save_predicts
@@ -46,6 +47,15 @@ def infer(config_path: str = "config"):
     predicts = infer.predict_proba(infer_data, 1)
 
     save_predicts(predicts, config.data.path_predicts)
+
+
+@logging_setup
+def hyperopt(config_path: str = "config"):
+    config = get_config(config_path)
+
+    train_data = load_data(config.data.path_train_data)
+    hopt = Hyperopt(config.data.cols)
+    hopt.optimize(train_data)
 
 
 if __name__ == "__main__":

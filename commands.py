@@ -55,7 +55,8 @@ def hyperopt(config_path: str = "config"):
 
     train_data = load_data(config.data.path_train_data)
     hopt = Hyperopt(config.data.cols)
-    hopt.optimize(train_data)
+    best_params = hopt.optimize(train_data)
+    logging.info(f"Best params: {repr(best_params)}")
 
 
 if __name__ == "__main__":

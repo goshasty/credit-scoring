@@ -16,7 +16,7 @@ class Hyperopt:
         self,
         cols: Dict[str, str],
         mlflow_server: str = "http://127.0.0.1:8080",
-        max_evals: int = 10,
+        max_evals: int = 1,
         exp_name: str = "exp",
         pr_rec_threshold: float = 0.1,
     ):
@@ -62,7 +62,8 @@ class Hyperopt:
             trials=None,
             verbose=1,
         )
-        print(best)
+
+        return best
 
     def objective(self, params: Dict[str, Any]) -> float:
 
@@ -84,7 +85,9 @@ class Hyperopt:
 
         self.num_run += 1
         with mlflow.start_run(run_name=str(self.num_run)):
-            mlflow.log_params(params)
+            # mlflow.log_params(lgb_fitter.model.params)
+            mlflow.log_params(lgb_fitter.model.get_params())
+
             mlflow.log_metric("auc_train", auc_train)
             mlflow.log_metric("auc_val", auc_val)
 

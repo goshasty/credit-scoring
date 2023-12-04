@@ -1,45 +1,51 @@
 import logging
 
 import fire
+from hydra import compose, initialize
+from hydra.core.config_store import ConfigStore
+from omegaconf import OmegaConf
 
+from credit_scoring.config import Params
 from credit_scoring.infer import LGBMInfer
 from credit_scoring.train import LGBMFit
 from credit_scoring.utils import load_data, logging_setup, save_predicts
 
 
-@logging_setup
-def train(
-    path_train_data: str = "data/train.csv",
-    path_fitted_model: str = "models/v1.pickle",
-):
+def get_config(conf_path: str) -> OmegaConf:
+    cs = ConfigStore.instance()
+    cs.store(name="params", node=Params)
+    with initialize(version_base="1.3", config_path=conf_path):
+        config = compose(config_name="config")
 
-    train_data = load_data(path_train_data)
-    logging.info(f"Load train data from {path_train_data}")
-    fitter = LGBMFit(path_fitted_model)
+    return config
+
+
+@logging_setup
+def train(config_path: str) -> None:
+    config = get_config(config_path)
+
+    train_data = load_data(config.data.path_train_data)
+    fitter = LGBMFit(
+        config.model.path_fitted_model, config.model.params, config.data.cols
+    )
 
     logging.info("Start fitting")
     lgb_classifier = fitter.fit_boosting(train_data)
     fitter.save_model(lgb_classifier)
 
-    logging.info(f"Fitted model  was saved: {path_fitted_model}")
-
 
 @logging_setup
-def infer(
-    path_infer_data: str = "data/X_test.csv",
-    path_save_predicts: str = "data/test_propability.csv",
-    path_fitted_model: str = "models/v1.pickle",
-):
-    logging.info(f"Path fitted model: {path_fitted_model}")
-
-    infer_data = load_data(path_infer_data)
-    infer = LGBMInfer(path_fitted_model)
+def infer(config_path: str):
+    config = get_config(config_path)
+    infer_data = load_data(config.data.path_infer_data)
+    infer = LGBMInfer(
+        config.model.path_fitted_model, config.model.params, config.data.cols
+    )
 
     logging.info("Start predicting")
     predicts = infer.predict_proba(infer_data, 1)
 
-    save_predicts(predicts, path_save_predicts)
-    logging.info(f"Predictions were saved {path_save_predicts}")
+    save_predicts(predicts, config.data.path_predicts)
 
 
 if __name__ == "__main__":

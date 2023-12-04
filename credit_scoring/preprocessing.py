@@ -1,4 +1,6 @@
 # from numpy import ndarray
+from typing import List
+
 from sklearn.base import BaseEstimator, TransformerMixin
 
 
@@ -7,7 +9,7 @@ class GetX(BaseEstimator, TransformerMixin):
     Transofrmer is for extracting features from dataset
     """
 
-    def __init__(self, cols_to_drop):
+    def __init__(self, cols_to_drop: List[str]):
         self.cols_to_drop = cols_to_drop
 
     def fit(self, Xy):

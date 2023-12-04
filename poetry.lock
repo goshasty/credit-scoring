@@ -801,13 +801,13 @@ pgp = ["gpg"]
 
 [[package]]
 name = "dvc"
-version = "3.31.0"
+version = "3.31.2"
 description = "Git for data scientists - manage your code and data together"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "dvc-3.31.0-py3-none-any.whl", hash = "sha256:769eb60f10bdcff7949c1817654e0cbac2f058b8d2a703280ae26cabd2fb102f"},
-    {file = "dvc-3.31.0.tar.gz", hash = "sha256:ab09cdd34f207d05253b3fe54b585d61242921ef63b02df3823a0c088c04357e"},
+    {file = "dvc-3.31.2-py3-none-any.whl", hash = "sha256:35753469b49e5aec7e20ff33d9b0d85e358df256776db7966d5833a2bbfbd9b9"},
+    {file = "dvc-3.31.2.tar.gz", hash = "sha256:25a53dc49a37558f7a57a74747c45d6607f83972ae450d10ba00e194e70c3a90"},
 ]
 
 [package.dependencies]

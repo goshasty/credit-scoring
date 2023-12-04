@@ -15,10 +15,10 @@ class Hyperopt:
     def __init__(
         self,
         cols: Dict[str, str],
-        mlflow_server: str = "http://127.0.0.1:8080",
-        max_evals: int = 1,
-        exp_name: str = "exp",
-        pr_rec_threshold: float = 0.1,
+        mlflow_server: str,
+        max_evals: int,
+        exp_name: str,
+        pr_rec_threshold: float,
     ):
         self.space = {
             "learning_rate": hp.uniform("learning_rate", 0.01, 0.1),
@@ -42,7 +42,7 @@ class Hyperopt:
         self.exp_name = exp_name
         self.pr_rec_threshold = pr_rec_threshold
 
-    def optimize(self, train_data: pd.DataFrame) -> None:
+    def optimize(self, train_data: pd.DataFrame) -> Dict[str, Any]:
         mlflow.set_tracking_uri(self.mlflow_server)
 
         mlflow.set_experiment(self.exp_name)

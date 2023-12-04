@@ -28,6 +28,20 @@ class Model:
 
 
 @dataclass
+class MLFlow:
+    server: str
+
+
+@dataclass
+class Hyperopt:
+    max_evals: int
+    exp_name: str
+    pr_rec_threshold: float
+
+
+@dataclass
 class Params:
     data: Data
     model: Model
+    mlflow: MLFlow
+    hyperopt: Hyperopt

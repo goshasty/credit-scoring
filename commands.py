@@ -52,9 +52,8 @@ def infer(config_path: str = "config"):
 @logging_setup
 def hyperopt(config_path: str = "config"):
     config = get_config(config_path)
-
     train_data = load_data(config.data.path_train_data)
-    hopt = Hyperopt(config.data.cols)
+    hopt = Hyperopt(config.data.cols, config.mlflow.server, **config.hyperopt)
     best_params = hopt.optimize(train_data)
     logging.info(f"Best params: {repr(best_params)}")
 

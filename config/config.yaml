@@ -1,21 +1,26 @@
 data:
-    path_train_data:  data/train.csv
-    path_infer_data:  data/X_test.csv
-    path_predicts: data/test_propability.csv
-    cols:
-      y_col: target
-      ts_col: ts
+  path_train_data:  data/train.csv
+  path_infer_data:  data/X_test.csv
+  path_predicts: data/test_propability.csv
+  cols:
+    y_col: target
+    ts_col: ts
 
 model:
-    name: lightgbm
-    path_fitted_model: models/v1.pickle
-    params:
-      boosting_type: gbdt
-      learning_rate: 0.05
-      metric: binary_logloss
-      n_estimators: 100
-      num_leaves: 31
-      objective: binary
+  name: lightgbm
+  path_fitted_model: models/v1.pickle
+  params:
+    boosting_type: gbdt
+    learning_rate: 0.05
+    metric: binary_logloss
+    n_estimators: 100
+    num_leaves: 31
+    objective: binary
 
-mflow:
+mlflow:
   server: http://127.0.0.1:8080
+
+hyperopt:
+  max_evals: 10
+  exp_name: exp,
+  pr_rec_threshold: 0.1

@@ -17,3 +17,5 @@ model:
       num_leaves: 31
       objective: binary
 
+mflow:
+  server: http://127.0.0.1:8080

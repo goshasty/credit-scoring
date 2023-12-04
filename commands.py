@@ -21,7 +21,7 @@ def get_config(conf_path: str) -> OmegaConf:
 
 
 @logging_setup
-def train(config_path: str) -> None:
+def train(config_path: str = "config") -> None:
     config = get_config(config_path)
 
     train_data = load_data(config.data.path_train_data)
@@ -35,7 +35,7 @@ def train(config_path: str) -> None:
 
 
 @logging_setup
-def infer(config_path: str):
+def infer(config_path: str = "config"):
     config = get_config(config_path)
     infer_data = load_data(config.data.path_infer_data)
     infer = LGBMInfer(
